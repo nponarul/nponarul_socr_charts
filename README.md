@@ -1,2 +1,2 @@
-# nponarul_socr_charts
+#socr_charts
 rebuilding SOCR Charts
