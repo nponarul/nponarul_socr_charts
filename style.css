@@ -1,0 +1,172 @@
+.ui-accordion .ui-accordion-header {
+  	color:black;
+  }
+  .ui-accordion-header-active {
+  	color: blue;
+  }
+    .ui-accordion .ui-accordion-header:hover {
+  	background-color: #9FD0E0;
+  	border: black;
+  }
+  .span12 ul li {
+  	color:white;
+  }
+
+  .ui-tabs .ui-tabs-nav {
+  	background-color: white;
+  	border:none;
+  }
+  .ui-tabs .ui-tabs-nav li a {
+
+  	color:black;
+  	border:none;
+  }
+
+  .ui-tabs .ui-tabs-nav li.ui-tabs-selected {
+  	
+  	color:black;
+  }
+
+.container-fluid {
+  display:none;
+ }
+
+ .container {
+  background-color: #333333;
+  width:100%;
+ }
+
+ .show {
+  display:block;
+ }
+
+ .hide {
+  display:none;
+ }
+
+ .varChoice {
+  display:block;
+ }
+.stack {
+  display:block;
+}
+.ops {
+  display:inline-block;
+  
+}
+
+#to {
+  display:block;
+}
+
+.grid-25 {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.varOps {
+  display:none;
+}
+
+
+
+
+
+.axis {
+  position: center; 
+  z-index: -1;
+}
+
+.axis text{
+  fill: black;
+  font-size: 15px;  
+}
+
+.bar {
+  fill: cornflowerblue;
+  stroke-width: 0.5px;
+  stroke: darkblue;
+  
+}
+
+.bar:hover {
+  fill: darkblue; 
+}
+
+circle {
+  position: fixed;
+  fill: yellow;
+    opacity: 0.7;
+    stroke: orange;
+    stroke-width: 2px;
+}
+
+circle:hover {
+  fill: orange;
+}
+
+.d3-tipBar, .d3-tipBubble {
+  line-height: 1;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 4px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tipBar:after, .d3-tipBubble:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tipBar.n:after, .d3-tipBubble.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+g {
+  border: 1px dashed red;
+}
+
+
+.span12 {
+  position: center;
+}
+
+select {
+  font-size: 15px;
+}
+
+#selection {
+  position: relative;
+}
+
+svg {
+  margin: 10px;
+  border-radius: 5px;
+}
+
+p {
+  font-family: sans-serif;
+  display: inline;
+  margin: 10px;
+}
+
+.point {
+  position: fixed;
+  fill: black;
+  stroke: black;
+    stroke-width: 2px;
+}
