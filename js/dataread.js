@@ -1,4 +1,4 @@
-var dataEntry, type, headers = Array(), dataArray=Array();
+var dataEntry, type, headers = [], dataArray= [], dLabs;
 window.onload = function() {
 	
 	//on submit of whole table, returns data
@@ -19,7 +19,7 @@ $('#submit-parse').click(function() {
 $("#submit-final").click(function() {
 	if (type==1) {
 		dataEntry = $dataTable.data('handsontable').getData();
-		console.log(dataEntry);
+		//console.log(dataEntry);
 			datatoJSON(dataEntry)
 	
 		if (chosen) {
@@ -106,10 +106,27 @@ function createVars(headers) {
     optbody.appendChild(opt);
     $('.span6 #chooseFrom').append(optbody);
   }
-};
+}
+
+function datatod3 (dataArray, headers) {
+	var d3data = Array(); 
+	dataArray.forEach(function(d,i) {
+		//var obj = {};
+		//obj.header = headers[i];
+		//obj.datad3 = d3.entries(d);
+		//d3data.push(obj);
+		var d3prep = d3.entries(d);
+		for (var j=0; j<d3prep.length; j++) {
+			d3prep[j].head = headers[i];
+		}
+		d3data.push(d3prep);
+	});
+	//console.log(d3data);
+	return d3data;
+}
 
 function dataIn (dataLabels, data) {
-	var dLabs = Array();
+	dLabs = Array();
 	if(rowLab || colLab) {
 		for (var i=0; i<dataLabels.length-1; i++) {
 					dLabs[i] = dataLabels[i+1]; 
@@ -135,15 +152,20 @@ function dataIn (dataLabels, data) {
 //console.log(dataArray);
 //console.log(headers);
 createVars(headers);
-console.log(dataArray);
+//console.log(d3.entries(dataArray[0]));
+dataArray = datatod3(dataArray, headers);
+	console.log(dataArray);
 return dataArray;
-};
+}
 
 function datatoJSON (dataEntry) {
 	
 	if(rowbool) {
 		var rowLabs= dataEntry[0]; 
-		var rows = dataEntry.slice(1); 
+		var rows;
+		//alert(rowLab);
+		if(rowLab) {rows = dataEntry.slice(1); }
+		else {rows = dataEntry;}
 	dataIn(rowLabs, rows);
 
 	} else if (colbool) {
@@ -153,10 +175,13 @@ function datatoJSON (dataEntry) {
   });
 });
 		var colLabs = colData[0];
-		var col = colData.slice(1); 
+		var col;
+		if(colLab) {col = colData.slice(1);} 
+		else {col = colData;}
+		console.log(col);
 	dataIn(colLabs, col); 
 	} 
-};
+}
 
 function buildConfig()
 {
@@ -190,7 +215,7 @@ function buildConfig()
 		else
 			return "";
 	}
-};
+}
 
 function stepFn(results, parserHandle)
 {
@@ -208,7 +233,7 @@ function stepFn(results, parserHandle)
 	
 	if (printStepChecked)
 		console.log(results, results.data[0]);
-};
+}
 
 function chunkFn(results, streamer, file)
 {
@@ -228,12 +253,12 @@ function chunkFn(results, streamer, file)
 		streamer.pause();
 		return;
 	}
-};
+}
 
 function errorFn(error, file)
 {
 	console.log("ERROR:", error, file);
-};
+}
 
 function completeFn()
 {
