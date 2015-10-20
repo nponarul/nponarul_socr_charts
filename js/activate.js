@@ -1,6 +1,7 @@
 //rowbool and colbool: variables groups by rows or by columns. rowLab and colLab: use first row/columns as data labels. chosen: variable group chosen
 var rowbool, colbool, rowLab, colLab, chosen; 
-var graphtype, xArray=Array(), yArray=Array();
+var graphtype, xArray=Array(), yArray=Array(), xArrLab = Array(), yArrLab = Array();
+
 $(document).ready(function() {
 	//Initializes accordion and tabs of data loading options
 	$('#accordion').accordion({
@@ -11,7 +12,7 @@ $(document).ready(function() {
 	active: false
 	});
 
-//Copy-Paste table functions
+//Row variable checked; ask for row labels
 	  $("input[name=var_row]").change(function() {
     if($(this).prop('checked')) {
       $('#rowOps').show(); 
@@ -25,7 +26,7 @@ $(document).ready(function() {
       chosen=false;
     }
   });
-
+//Column variable checked, ask for col labels
  $("input[name=var_col]").change(function() {
     if($(this).prop('checked')) {
       $('#colOps').show(); 
@@ -83,6 +84,7 @@ $('#chooseGraph').change(function() {
 
 });
 
+
 $('#addx').click(function() { varsSelect(1);});
 $('#addy').click(function() { varsSelect(2);});
 
@@ -90,30 +92,40 @@ $('#removex').click(function() {varsUnselect(1);});
 $('#removey').click(function() {varsUnselect(2);});
 
 $('#obj').click(function() {
-  console.log(xArray, yArray);
+  console.log(reassign(xArray));
+  console.log(yArray);
+    //console.log(reassign(xArray));
   if(graphSelect == 1) {
-    graph(xArray,null, "bar");
-
-      //  createXaxis("x");
-      //createYaxis("y");
+//graphEach(reassign(xArray));
+      //graphEach(reassign(dataArray))
+      graphBar(reassign(xArray));
   } else if (graphSelect == 2) {
-    graph(xArray, yArray, "scatter"); 
+    //graphEach(reassign(yArray));
+    //graph(xArray, yArray, "scatter"); 
   }
 });
 
 });
+
+//Adds selected variables to 
 function indexArray(index, value, remove) {
 if(remove) {
   if (value == 1) {
-  xArray.pop(dataArray[index]);
+      xArray.pop(dataArray[index]);
+      xArrLab.pop(index);
 } else if (value == 2) {
   yArray.pop(dataArray[index]);
-}
+}yArrLab.pop(index);
 } else {
   if (value == 1) {
+console.log(dataArray[index]);
   xArray.push(dataArray[index]);
+
+      xArrLab.push(index);
 } else if (value == 2) {
+      console.log(dataArray[index]);
   yArray.push(dataArray[index]);
+      yArrLab.push(index);
 }
 }
 };
@@ -127,6 +139,7 @@ function varsSelect(value) {
   indexArray(index); //creates array of indexes and makes array of selected objects
   if (value == 1) {
     $("#chosenx").append('<option>'+select+'</option>');
+
     indexArray(index, 1, false); 
   } else if (value == 2) {
       $('#choseny').append('<option>'+select+'</option>');
@@ -139,6 +152,7 @@ function varsUnselect(value) {
  if(value == 1) {
    $('.span6 #chosenx :selected').each(function(i, selected){ 
       var index = $(selected).index();
+
       $(this).remove();
       indexArray(index, 1, true);
   });
@@ -155,4 +169,14 @@ function varsUnselect(value) {
 function toGraphs() {
   $("#data").hide(); 
   $("#chart1").show();
+};
+
+function reassign(arr) {
+    var newArr = Array();
+    arr.forEach(function(d) {
+        for (var i=0; i< d.length; i++) {
+            newArr.push(d[i]);
+        }
+    });
+    return newArr;
 }
