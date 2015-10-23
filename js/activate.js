@@ -79,6 +79,9 @@ $('#chooseGraph').change(function() {
     $('#twoOp').show();
   } else if (graphSelect == 0) {
     $('#oneOp, #twoOp').hide(); 
+  } else if (graphSelect == 5) {
+      $('#oneOp').show();
+      $('#twoOp').show();
   }
 
 
@@ -92,16 +95,20 @@ $('#removex').click(function() {varsUnselect(1);});
 $('#removey').click(function() {varsUnselect(2);});
 
 $('#obj').click(function() {
-  console.log(reassign(xArray));
-  console.log(yArray);
-    //console.log(reassign(xArray));
+
   if(graphSelect == 1) {
 //graphEach(reassign(xArray));
       //graphEach(reassign(dataArray))
-      graphBar(reassign(xArray));
+      graphEach(reassign(xArray), 1);
+      // graphBar(reassign(xArray));
   } else if (graphSelect == 2) {
+     graphEach(reassign(xArray.concat(yArray)),2);
+      //console.log(reassign(xArray.concat(yArray)));
     //graphEach(reassign(yArray));
     //graph(xArray, yArray, "scatter"); 
+  } else if (graphSelect == 5) {
+      //graphPie(reassign(xArray), reassign(yArray));
+      graphEach(reassign(xArray), 5);
   }
 });
 
@@ -112,20 +119,20 @@ function indexArray(index, value, remove) {
 if(remove) {
   if (value == 1) {
       xArray.pop(dataArray[index]);
-      xArrLab.pop(index);
+      xArrLab.pop(headers[index]);
 } else if (value == 2) {
   yArray.pop(dataArray[index]);
-}yArrLab.pop(index);
+}yArrLab.pop(headers[index]);
 } else {
   if (value == 1) {
 console.log(dataArray[index]);
   xArray.push(dataArray[index]);
 
-      xArrLab.push(index);
+      xArrLab.push(headers[index]);
 } else if (value == 2) {
       console.log(dataArray[index]);
   yArray.push(dataArray[index]);
-      yArrLab.push(index);
+      yArrLab.push(headers[index]);
 }
 }
 };
