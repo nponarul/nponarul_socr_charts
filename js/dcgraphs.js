@@ -24,14 +24,73 @@ spendData.forEach(function(d) {
     d.Spent = d.Spent.match(/\d+/);
 });
 
+function createGraph(input) {
+   d3.select("#graphhere").append("div").attr("id", input);
 
+}
+function scatterVals(arr) {
+   for (var i=0; i<arr.length; i++) {
+       for (var j=0; j<arr.length; j++) {
+           if(arr[i].key == arr[j].key && arr[i].head != arr[j].head) return +arr[i].value, +arr[j].value;
+       }
+   }
+}
 //
-   function graphEach(arr) {
+   function graphEach(arr, type) {
        var scale = d3.scale.linear()
            .range([0,10]);
 
-
        arr.forEach(function(d) {
+           d.value = +d.value;
+          // console.log(d.value);
+           if(isNaN(d.value)){d.value = 0; }
+       });
+
+      // d3.select("#graphhere").append("div").attr("id", "test11");
+
+       //var chart = dc.barChart("#test11");
+
+
+       var ndxb = crossfilter(arr),
+           max = d3.max(arr,function(d) {return d.value;}),
+           max1 = ndxb.dimension(function(d) {return Math.max(0, d.value);}),
+           valDim = ndxb.dimension(function(d) {return d.value/max;}),
+           keyDim = ndxb.dimension(function(d) {return d.key;}),
+           valbykey = keyDim.group().reduceSum(function(d){return d.value/max;}),
+           what = valDim.group().reduceSum(function(d) {return d.value/max}),
+           //scatterDim = ndxb.dimension(scatterVals(arr)),
+           //what1 = scatterDim.group().reduceSum(function(d) {return d.value;}),
+           topTypes = valbykey.top(1);
+       console.log(topTypes[0].key, topTypes[0].value);
+       console.log(max);
+       if(type ==1) {
+           createGraph("bar");
+           var bar = dc.barChart("#bar");
+
+           bar
+               .width(760)
+               .height(480)
+               .x(d3.scale.linear().domain([0, topTypes[0].key]))
+               .brushOn(false)
+               .yAxisLabel("This is the Y Axis!")
+               .dimension(valDim)
+               .group(what)
+               .gap(200);
+       } else if (type == 2) {
+           createGraph("scatter");
+           var scatter = dc.scatterPlot("#scatter");
+           scatter
+               .width(768)
+               .height(480)
+               .x(d3.scale.linear().domain([6,20]))
+               .brushOn(false)
+               .symbolSize(8)
+               .clipPadding(10)
+               .yAxisLabel("This is the Y Axis!")
+               .dimension(valDim)
+               .group(what1);
+       }
+  /*     arr.forEach(function(d) {
            d.value = scale(parseFloat(d.value));
            if(isNaN(d.value)) {d.value = 0;}
            console.log(d.value);
@@ -46,24 +105,26 @@ spendData.forEach(function(d) {
      val_count = valDim.group().reduceCount();
     //console.log(headDim);
        var pie = d3.select("#graphhere").append('div').attr('id', 'name-pie'),
-       hist = d3.select("#graphhere").append('div').attr('id', 'name-hist'),
+       //hist = d3.select("#graphhere").append('div').attr('id', 'name-hist'),
        //row = d3.select("#graphhere").append('div').attr('id', 'name-row'),
-       ringChart = dc.pieChart("#name-pie"),
-       histChart = dc.barChart("#name-hist");
-       //rowChart = dc.rowChart("#name-row");
+       ringChart = dc.pieChart("#name-pie");
+       //histChart = dc.barChart("#name-hist");
+       //rowChart = dc.rowChart("#name-row");*/
 
-   ringChart
+
+
+  /* ringChart
        .width(200).height(200)
        .dimension(headDim)
        .group(head_val)
-       .innerRadius(50);
+       .innerRadius(50);*/
 
-       histChart
-           .width(600).height(200)
+
+          /* .width(600).height(200)
            .dimension(keyDim)
            .group(val_count)
            .x(d3.scale.linear().domain([0,100]))
-           .elasticY(true);
+           .elasticY(true);*/
        /*rowChart
            .width(350).height(200)
            .dimension(headDim)
@@ -78,6 +139,9 @@ dc.renderAll();
         graphEach(select[i]); 
     }
 }
+
+
+
 
 // set crossfilter
 //example set
@@ -112,7 +176,7 @@ dc.renderAll();*/
 
 function graphBar (arr) {
     arr.forEach(function(d) {
-        d.value = +parseFloat(d.value);
+        d.value = +d.value;
         console.log(d.value);
         if(isNaN(d.value)){d.value = 0; }
     });
@@ -140,4 +204,70 @@ console.log(topTypes[0].key, topTypes[0].value);
         .group(what)
         .gap(100);
     chart.render();
+}
+
+function graphPie(xArray, yArray){
+    var w = 650;
+    var h = 450;
+
+    console.log("Pie Chart");
+    d3.select("#graphhere").append("div").attr("id", "test15");
+    var chart = dc.pieChart("#test15");
+
+
+    if(yArray.length == 0) {    // no data is in yArray
+
+        console.log("No data in yArray!");
+
+        xArray.forEach(function(d) {
+            d.value = parseFloat(d.value);
+            //console.log(d.value);
+            if(isNaN(d.value)){
+                d.value = 0;
+            }
+        });
+    console.log(xArray);
+        var ndx = crossfilter(xArray);
+        var valDim = ndx.dimension(function(d) {return d.value;});
+        var valGroup = valDim.group();
+
+        chart
+            .width(w)
+            .height(h)
+            .dimension(valDim)
+            .group(valGroup)
+            //.slicesCap(10)
+            .innerRadius(10)
+            .legend(dc.legend());
+        chart.render();
+    }
+    else { // yArray contains data
+        console.log("yArray contains data");
+
+        yArray.forEach(function(d) {
+            d.value = parseFloat(d.value);
+            //console.log(d.value);
+            if(isNaN(d.value)){
+                d.value = 0;
+            }
+        });
+
+        var ndx = crossfilter(xArray);
+        var valDim = ndx.dimension(function(d) {return d.value;});
+        var valGroup = valDim.group();
+
+        chart
+            .width(w)
+            .height(h)
+            .dimension(valDim)
+            .group(valGroup)
+            .slicesCap(10)
+            .innerRadius(10)
+            .legend(dc.legend());
+
+        chart.render();
+
+    }
+
+
 }
