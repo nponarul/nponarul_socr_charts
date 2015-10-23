@@ -97,17 +97,14 @@ $('#removey').click(function() {varsUnselect(2);});
 $('#obj').click(function() {
 
   if(graphSelect == 1) {
-//graphEach(reassign(xArray));
-      //graphEach(reassign(dataArray))
+
       graphEach(reassign(xArray), 1);
-      // graphBar(reassign(xArray));
+
   } else if (graphSelect == 2) {
      graphEach(reassign(xArray.concat(yArray)),2);
-      //console.log(reassign(xArray.concat(yArray)));
-    //graphEach(reassign(yArray));
-    //graph(xArray, yArray, "scatter"); 
+
   } else if (graphSelect == 5) {
-      //graphPie(reassign(xArray), reassign(yArray));
+
       graphEach(reassign(xArray), 5);
   }
 });
