@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SOCR Charts Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/lib/head.min.js"></script>
+    <script src="js/lib/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/input/jquery.handsontable.full.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/jquery-ui.structure.min.css">
+    <link rel="stylesheet" href="css/jquery-ui.theme.min.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-multiselect.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/dc.css">
+
+</head>
+<body>
+
+<div class="container">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="header">
+               <!-- <a class="btn splash-datadriven" id="toggleDiv" onclick="toGraphs()"><i id="tog" class =" icon-circle-arrow-right"></i></a>-->
+            </div>
+        </div><!--end of span12-->
+    </div><!--end of header row fluid-->
+</div><!--end of container-->
+
+<div class="container-fluid show" id="data">
+    <div class="row-fluid">
+        <div class="span6">
+            <!--<div id="accordion">-->
+                <!--First accordion panel-->
+                <h3> Copy and Paste Data into Table </h3>
+
+               <!-- <div class="first">-->
+
+                    <div class="handsontable spreadsheet_copy" id="input"></div>
+
+                    <section class = "controls">
+                        <p>Paste in data and click submit</p>
+                        <input class="btn btn-default" type="submit" value="Submit" name="submit" id="toArray" href="#var" data-toggle="modal">
+
+                        <h3> Upload CSV </h3>
+                        <input type="file" id="files">
+                        <a class="btn btn-default" id="submit-parse" href = "#var" data-toggle="modal">Submit</a>
+                    </section><!--end of controls-->
+                        <div class ="modal fade" id="var" >
+                            <div class="modal-dialog" role="dialog">
+                                <div class = "modal-content">
+                                    <div class = "modal-header">
+                                        <h4>Variables settings</h4>
+                                    </div>
+                                    <div class ="modal-body">
+                                        <p>Choose stuff, add accordion</p>
+                                        <h3> Variable Options</h3>
+                                        <div class="third" id = "modal-panel1">
+                                            <div id="headerOps">
+                                                <form>
+                                                    <p> Variables are grouped by: </p>
+                                                    <div id="row"><input type="checkbox" name="var_row" value="rows"> Rows <br></div>
+                                                    <div class="varOps" id="rowOps"><input type="checkbox" name="rowLabs"> Use first row as value names <br></div>
+                                                    <div id="col"><input type="checkbox" name="var_col" value="columns"> Columns <br></div>
+                                                    <div class="varOps" id="colOps"><input type="checkbox" name="colLabs"> Use first column as value names <br></div>
+                                                </form>
+                                            </div>
+                                            <button id="submit-final">Submit</button>
+
+                                        </div>
+                                        <div id = "modal-panel2" style="display:none">
+                                            <div class="row-fluid" id="ops">
+                                                <div class="span4">
+                                                    <button id="back">Back</button>
+                                                </div>
+                                                <div class="span4">
+                                                    <select id="chooseGraph" value="Choose a graph">
+                                                        <option value = "0" selected="selected">Choose a graph</option>
+                                                        <option value="1">Bar Graph</option>
+                                                        <option value="2">Scatter Plot</option>
+                                                        <option value="3">Histogram</option>
+                                                        <option value="4">Bubble Chart</option>
+                                                        <option value="5">Pie Chart</option>
+                                                    </select>
+                                                </div><div class="span4">
+
+                                            </div>
+                                            </div><!--end of row fluid-->
+
+                                            <div class="row-fluid" id="vars">
+                                                <div class="span6">
+                                                    <div style="float:right">
+                                                        <h3>Variables</h3>
+                                                        <select class= "o" id="chooseFrom" multiple="multiple"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="span6">
+                                                    <div id="oneOp">
+                                                        <div class ="ops">
+                                                            <button class="stack" id="addx">Add X</button>
+                                                            <button class="stack" id="removex">Remove X</button>
+                                                        </div>
+                                                        <select class="ops" id="chosenx" multiple="multiple" value="1"></select>
+                                                    </div><!--end of oneOp-->
+                                                    <div id="twoOp">
+                                                        <div class ="ops">
+                                                            <button class="stack" id="addy">Add Y</button>
+                                                            <button class="stack" id="removey">Remove Y</button>
+                                                        </div>
+                                                        <select class="ops" id="choseny" multiple="multiple" value="2"></select>
+                                                    </div><!--end of twoOp-->
+
+                                                </div>
+                                            </div><!--end of row fluid-->
+
+                                        </div>
+                                    <div class="modal-footer">
+                                        <button class = "btn btn-default" id="obj" data-dismiss="modal" href ="#graphhere">Graph</button>
+                                        <a class = "btn btn-default" data-dismiss="modal">Close</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+</div>
+
+                <!--</div><!--end of first accordion panel-->
+
+                <!--Second accordion panel-->
+
+               <!-- <div class="second">-->
+
+                <!--</div><!--end of second accordion panel-->
+                <!--third accordion panel-->
+
+                <!--<div class="third">-->
+
+               <!-- </div><!--end of third accordion panel-->
+
+           <!-- </div><!--end of accordion-->
+
+
+        </div><!--end of span12-->
+        <div class="span6" id="graphhere">
+            <ul class = "nav nav-tabs" id="addtop">
+
+            </ul>
+            <div class="tab-content" id="addbody">
+
+            </div>
+        </div>
+    </div><!--end of accordion row fluid-->
+
+</div><!--end of accordion container-fluid-->
+
+
+<script type='text/javascript'>
+
+    //Fix for browsers that don't support console logging
+    if(!window.console) console = {};
+    console.log = console.log || function(){};
+    console.warn = console.warn || function(){};
+    console.error = console.error || function(){};
+    console.info = console.info || function(){};
+
+    head.js("js/init.js",
+            "js/lib/jquery.min.js",
+            "js/lib/async.js",
+            "js/bootstrap/bootstrap.min.js",
+            "js/lib/jquery-ui.min.js",
+            {D3:"js/vis/d3.v2.min.js"},
+            "js/update.js",
+            "js/lib/jtweet/jquery.jtweetsanywhere-1.3.1.min.js",
+            "js/lib/jquery.pubsub.js",
+            "js/lib/jquery.handsontable.full.js",
+            "js/input/data.js",
+            "js/input/worldbank.js",
+            "js/vis/tooltip.js",
+            "js/lib/crossfilter.js",
+            "js/lib/dc.js",
+            "js/utils.js",
+            "js/bootstrap/bootstrapSwitch.js",
+            "js/config.js",
+            "js/bootstrap/bootstrap.min.js",
+            "js/input/papaparse.min.js",
+            "js/dcgraphs.js",
+            "js/d3.tip.js",
+            //"js/graph.js",
+            "js/activate.js",
+            "js/dataread.js",
+            "js/bootstrap/bootstrap-multiselect.js"
+    );
+
+    head.ready(function () {
+
+        var url = window.location.href;
+        var baseUrl = url.substring(0, url.indexOf('index.html'));
+        if(baseUrl =='')
+            baseUrl=url;
+        /*
+         GLOBAL VARIABLES...TO BE ACCESSED FROM {experiment}.js files.
+         ** BAD practice.litering global namespace
+
+         @Latest Revision: Segregrating all global variables to the necessary SOCR sub-object
+         */
+        socr.exp.controllerSliderState = "hide";
+
+        /*
+         *Loading MVC
+         */
+        socr.model = new socr.model();
+        socr.view = new socr.view(socr.model);
+        socr.controller = new socr.controller(socr.model,socr.view);
+
+        /*
+         *  CoverPage rendering
+         */
+
+        socr.view.CoverPage();
+
+        document.onreadystatechange = function(){
+            if (document.readyState == 'complete'){
+                /* All resources are loaded */
+                $('#startApp').removeAttr('disabled')
+                        .html('Launch')
+            };
+        }
+
+
+        /*
+         * Resize event adjusts the cover page accordingly
+         */
+        $(window).resize(function(){
+            console.log('Coverpage function')
+            socr.view.CoverPage();
+        });
+
+        $(document).ready(function(){
+            /*
+             * Initialize the controller
+             */
+            socr.controller.initialize();
+
+            socr.view.initialize();
+
+            var urlParams = {};
+            (function () {
+                var match,
+                        pl     = /\+/g,  // Regex for replacing addition symbol with a space
+                        search = /([^&=]+)=?([^&]*)/g,
+                        decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+                        query  = window.location.search.substring(1);
+
+                while (match = search.exec(query))
+                    urlParams[decode(match[1])] = decode(match[2]);
+            })();
+
+            if(urlParams.type!==undefined){
+                //type=urlParams.type;
+                console.log("dataset:"+urlParams.dataset);
+                console.log("nSize:"+urlParams.nSize);//datapoints
+                console.log("countSize:"+urlParams.countSize);
+                //urlParams.variable;
+                $("#dataDriven-tab").trigger('click');
+                $("#nSize").val(urlParams.nSize);
+                $("#countSize").val(urlParams.countSize);
+
+                socr.model.setDataset({
+                    data:urlParams.dataset,
+                    processed:false,
+                    type:'url'
+                });
+                //load the dataset grid with the url values
+                socr.view.loadInputSheet(urlParams.dataset.split(","));
+                //view.updateSimulationInfo()
+
+                $('section .response').html('Data loaded successfully! Just go to controller tile and start generating random samples!<i class="icon-ok"></i>').show();
+                //$("#countSize").val(urlParams.variable);
+            }
+
+        }); //document ready function
+    }); //head.js ready function
+</script>
+</body>
+</html>
