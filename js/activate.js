@@ -1,6 +1,6 @@
 //rowbool and colbool: variables groups by rows or by columns. rowLab and colLab: use first row/columns as data labels. chosen: variable group chosen
 var rowbool, colbool, rowLab, colLab, chosen; 
-var graphtype, xArray=Array(), yArray=Array(), xArrLab = Array(), yArrLab = Array();
+var filetype_, xArray=Array(), yArray=Array(), xArrLab = Array(), yArrLab = Array();
 
 $(document).ready(function() {
 	//Initializes accordion and tabs of data loading options
@@ -11,6 +11,18 @@ $(document).ready(function() {
 	$('#tabs').tabs({
 	active: false
 	});
+
+$('#files').on('change', function() {
+
+    var test = $(this).valueOf();
+    //if (test != "") {addDel();}
+//console.log(test[0].files[0].type);
+    var filetype = test[0].files[0].type;
+    filetype_ = filetype.substr(filetype.search("/+")+1);
+    console.log(filetype_);
+
+});
+
 
 //Row variable checked; ask for row labels
 	  $("input[name=var_row]").change(function() {
@@ -183,4 +195,8 @@ function reassign(arr) {
         }
     });
     return newArr;
+}
+
+function addDel() {
+    $('#fileops').prepend("<a id='emptyfiles'class='btn btn-default'>X</a>")
 }

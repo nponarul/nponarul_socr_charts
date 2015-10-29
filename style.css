@@ -170,3 +170,18 @@ p {
   stroke: black;
     stroke-width: 2px;
 }
+
+#graphhere .bar {
+  border-width: 2px;
+  border-color: black;
+
+}
+.htCore {
+  overflow:auto;
+
+}
+
+
+.handsontable .dragdealer {
+ display:none !important;
+}

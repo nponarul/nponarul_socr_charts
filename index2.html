@@ -30,7 +30,7 @@
 
 <div class="container-fluid show" id="data">
     <div class="row-fluid">
-        <div class="span6">
+        <div class="span5">
             <!--<div id="accordion">-->
                 <!--First accordion panel-->
                 <h3> Copy and Paste Data into Table </h3>
@@ -40,12 +40,18 @@
                     <div class="handsontable spreadsheet_copy" id="input"></div>
 
                     <section class = "controls">
+                        <a class = "reset-spreadsheet btn btn-default">Refresh table</a>
                         <p>Paste in data and click submit</p>
                         <input class="btn btn-default" type="submit" value="Submit" name="submit" id="toArray" href="#var" data-toggle="modal">
 
                         <h3> Upload CSV </h3>
                         <input type="file" id="files">
-                        <a class="btn btn-default" id="submit-parse" href = "#var" data-toggle="modal">Submit</a>
+                        <div id="fileops" style="display:inline">
+                            <a class="btn btn-default" id="submit-parse" href = "#var" data-toggle="modal">Submit</a>
+                            <a class="btn btn-default" href="#var" data-toggle="modal">Variables</a>
+                        </div>
+
+
                     </section><!--end of controls-->
                         <div class ="modal fade" id="var" >
                             <div class="modal-dialog" role="dialog">
@@ -141,7 +147,7 @@
 
 
         </div><!--end of span12-->
-        <div class="span6" id="graphhere">
+        <div class="span7" id="graphhere">
             <ul class = "nav nav-tabs" id="addtop">
 
             </ul>
