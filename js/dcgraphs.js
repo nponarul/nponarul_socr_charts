@@ -4,8 +4,6 @@ function createGraph(input, name) {
     d3.select("#addbody").append("div").attr("id",input).attr("class","tab-pane fade");
     var id = "#"+input;
     $("#addtop").append("<li><a data-toggle='tab' href="+id+">"+name+"</a></li>");
-
-js/
    // d3.select("#graphhere").append("div").attr("id", input);newhtml
 
 }

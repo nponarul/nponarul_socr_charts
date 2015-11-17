@@ -12,6 +12,7 @@ $(document).ready(function() {
 	active: false
 	});
 
+    //$('#addbody:first-child').addClass('active');
 $('#files').on('change', function() {
 
     var test = $(this).valueOf();
@@ -20,6 +21,22 @@ $('#files').on('change', function() {
     var filetype = test[0].files[0].type;
     filetype_ = filetype.substr(filetype.search("/+")+1);
     console.log(filetype_);
+
+    var reader = new FileReader();
+    reader.onload = onReaderLoad;
+    reader.readAsText(event.target.files[0]);
+    function onReaderLoad(event){
+       if(filetype_ != "csv") {
+           console.log(event.target.result);
+       }
+        if(filetype_ == "json") {
+            var obj = JSON.parse(event.target.result);
+            console.log(obj);
+        }
+
+
+        //alert_data(obj.name, obj.family);
+    }
 
 });
 
