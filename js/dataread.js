@@ -1,80 +1,90 @@
 var dataEntry, type, headers = [], dataArray= [], dLabs;
 window.onload = function() {
-	
-	//on submit of whole table, returns data
+
+		//on submit of whole table, returns data
 	$('#toArray').on('click', function() {
-		type = 1; 
-		$("#accordion").accordion("activate", 2);
-		
+		type = 1;
+		//alert(type);
+		//$("#accordion").accordion("activate", 2);newhtml
+		//dataProcess(1);
+
 	});
 
 $('#submit-parse').click(function() {
 		 	//console.log(chosen); 
 		 	type = 2; 
-		 	$("#accordion").accordion("activate", 2);
-		
-	
+		 	//$("#accordion").accordion("activate", 2);
+	//alert(type);
+	//dataProcess(2);
 	});
-
+//alert(type);
 $("#submit-final").click(function() {
 	if (type==1) {
+		//alert(type);
 		dataEntry = $dataTable.data('handsontable').getData();
 		//console.log(dataEntry);
 			datatoJSON(dataEntry)
 	
 		if (chosen) {
-			$('#data').hide();
-		  $('#chart1').show();
+			//$('#data').hide();new html
+		  //$('#chart1').show();new html
+			$("#modal-panel1").hide();
+			$("#modal-panel2").show();
 		} else {
 			alert("Choose variable grouping");
 			$("#accordion").accordion("activate", 0);
 		}
 	} else if (type == 2) {
 		if (chosen) {
-			$('#data').hide();
-		  $('#chart1').show();
+			//$('#data').hide();new html
+			//$('#chart1').show();new html
+			$("#modal-panel1").hide();
+			$("#modal-panel2").show();
 		} else {
 			alert("Choose variable grouping");
 			$("#accordion").accordion("activate", 1);
 		}
 
+if(filetype_ == "csv") {
+	stepped = 0;
+	chunks = 0;
+	rows = 0;
 
-		stepped = 0;
-		chunks = 0;
-		rows = 0;
-
-		var txt = $('#files').val(); 
-		var localChunkSize = $('#localChunkSize').val();
-		var remoteChunkSize = $('#remoteChunkSize').val();
-		var files = $('#files')[0].files; 
-		var config = buildConfig();
-
-				// NOTE: Chunk size does not get reset if changed and then set back to empty/default value
-		if (localChunkSize)
-			Papa.LocalChunkSize = localChunkSize;
-		if (remoteChunkSize)
-			Papa.RemoteChunkSize = remoteChunkSize;
-
-		pauseChecked = $('#step-pause').prop('checked');
-		printStepChecked = $('#print-steps').prop('checked');
+	var txt = $('#files').val();
+	var localChunkSize = $('#localChunkSize').val();
+	var remoteChunkSize = $('#remoteChunkSize').val();
+	var files = $('#files')[0].files;
+	var config = buildConfig();
 
 
-		if (files.length > 0)
+	// NOTE: Chunk size does not get reset if changed and then set back to empty/default value
+	if (localChunkSize)
+		Papa.LocalChunkSize = localChunkSize;
+	if (remoteChunkSize)
+		Papa.RemoteChunkSize = remoteChunkSize;
+
+	pauseChecked = $('#step-pause').prop('checked');
+	printStepChecked = $('#print-steps').prop('checked');
+
+
+	if (files.length > 0)
+	{
+		if (!$('#stream').prop('checked') && !$('#chunk').prop('checked'))
 		{
-			if (!$('#stream').prop('checked') && !$('#chunk').prop('checked'))
+			for (var i = 0; i < files.length; i++)
 			{
-				for (var i = 0; i < files.length; i++)
+				if (files[i].size > 1024 * 1024 * 10)
 				{
-					if (files[i].size > 1024 * 1024 * 10)
-					{
-						alert("A file you've selected is larger than 10 MB; please choose to stream or chunk the input to prevent the browser from crashing.");
-						return;
-					}
+					alert("A file you've selected is larger than 10 MB; please choose to stream or chunk the input to prevent the browser from crashing.");
+					return;
 				}
-			}
 
-			start = performance.now();
-			
+			}
+		}
+
+		start = performance.now();
+
+
 			$('#files').parse({
 				config: config,
 				before: function(file, inputElem)
@@ -86,16 +96,20 @@ $("#submit-final").click(function() {
 					console.log("Done with all files.");
 				}
 			});
-		}
-		else
-		{
-			start = performance.now();
-			var results = Papa.parse(txt, config);
-			console.log("Synchronous parse results:", results);
-		}
+
 	}
-});
+	else
+	{
+
+		start = performance.now();
+		var results = Papa.parse(txt, config);
+		console.log("Synchronous parse results:", results);
+	}
 }
+}
+
+});
+};
 
 
 function createVars(headers) {
@@ -154,6 +168,7 @@ function dataIn (dataLabels, data) {
 createVars(headers);
 //console.log(d3.entries(dataArray[0]));
 dataArray = datatod3(dataArray, headers);
+	//$dataTable.populateFromArray({start:0},dataArray,true,source="populatefromArray");
 	console.log(dataArray);
 return dataArray;
 }
@@ -270,7 +285,7 @@ function completeFn()
 		rows = arguments[0].data.length;
 
 dataEntry = arguments[0].data;
-	
+
 	console.log("Finished input (async). Time:", end-start, arguments);
 	console.log("Rows:", rows, "Stepped:", stepped, "Chunks:", chunks);
 	console.log(dataEntry);
@@ -278,5 +293,84 @@ dataEntry = arguments[0].data;
 	//dataEntry = $dataTable.data('handsontable');
 
 	 //$("#accordion").accordion("activate", 0);
+}
+function dataProcess(type) {
+	if (type==1) {
+		dataEntry = $dataTable.data('handsontable').getData();
+		//console.log(dataEntry);
+		datatoJSON(dataEntry)
+
+		if (chosen) {
+			$('#data').hide();
+			$('#chart1').show();
+		} else {
+			alert("Choose variable grouping");
+			$("#accordion").accordion("activate", 0);
+		}
+	} else if (type == 2) {
+		if (chosen) {
+			$('#data').hide();
+			$('#chart1').show();
+		} else {
+			alert("Choose variable grouping");
+			$("#accordion").accordion("activate", 1);
+		}
+
+
+		stepped = 0;
+		chunks = 0;
+		rows = 0;
+
+		var txt = $('#files').val();
+		var localChunkSize = $('#localChunkSize').val();
+		var remoteChunkSize = $('#remoteChunkSize').val();
+		var files = $('#files')[0].files;
+		var config = buildConfig();
+
+		// NOTE: Chunk size does not get reset if changed and then set back to empty/default value
+		if (localChunkSize)
+			Papa.LocalChunkSize = localChunkSize;
+		if (remoteChunkSize)
+			Papa.RemoteChunkSize = remoteChunkSize;
+
+		pauseChecked = $('#step-pause').prop('checked');
+		printStepChecked = $('#print-steps').prop('checked');
+
+
+		if (files.length > 0)
+		{
+			if (!$('#stream').prop('checked') && !$('#chunk').prop('checked'))
+			{
+				for (var i = 0; i < files.length; i++)
+				{
+					if (files[i].size > 1024 * 1024 * 10)
+					{
+						alert("A file you've selected is larger than 10 MB; please choose to stream or chunk the input to prevent the browser from crashing.");
+						return;
+					}
+				}
+			}
+
+			start = performance.now();
+
+			$('#files').parse({
+				config: config,
+				before: function(file, inputElem)
+				{
+					console.log("Parsing file:", file);
+				},
+				complete: function()
+				{
+					console.log("Done with all files.");
+				}
+			});
+		}
+		else
+		{
+			start = performance.now();
+			var results = Papa.parse(txt, config);
+			console.log("Synchronous parse results:", results);
+		}
+	}
 }
 	
